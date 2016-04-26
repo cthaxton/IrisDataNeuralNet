@@ -1,8 +1,14 @@
-package org.neuroph.samples;
-
+//Crysta Thaxton
+//Final Project
+//Iris Data Set
+//Artificial Neural Network
 import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
+
+import java.util.*;
 
 
 public class Main {
@@ -12,47 +18,40 @@ public class Main {
         double sepalWid;
         double petalLen;
         double petalWid;
-        //Loadigng saved Neural Network
+        //Loading saved Neural Network
 
-        Scanner.out.println("Iris Data Set \n Please enter the measurements of your Iris below.")
+        System.out.println("Iris Data Set \n Please enter the measurements of your Iris below.");
         NeuralNetwork loadedMlPerceptron = NeuralNetwork.createFromFile("3Layer3.nnet");
 
-        public void setInput(){
-            boolean keepGoing = true;
-            while(keepGoing){
-                Scanner.out.println("Sepal Length: ");
-                Scanner input = new Scanner(System.in);
-                sepalLen = input.nextLine();
+        System.out.println("Sepal Length: ");
+        Scanner input = new Scanner(System.in);
+        String sepalLenInput = input.nextLine();
+        sepalLen = Double.parseDouble(sepalLenInput);
 
-            }
-    }
 
-    public double getSepalLen(){
-        return sepalLen;
-    }
+        System.out.println("Sepal Width: ");
+        String sepalWidInput = input.nextLine();
+        sepalWid = Double.parseDouble(sepalWidInput);
 
-    public void setSepalLen(double sepalLen){
-        this.sepalLen = sepalLen;
-    }
+        System.out.println("Petal Length: ");
+        String petalLenInput = input.nextLine();
+        petalLen = Double.parseDouble(petalLenInput);
 
-    public double getSepalWid(){
-        return sepalWid;
-    }
+        System.out.println("Petal Width: ");
+        String petalWidInput = input.nextLine();
+        petalWid = Double.parseDouble(petalWidInput);
 
-    public void setSepalWid(double sepalWid){
-        this.sepalWid = sepalWid;
-    }
+        DataSet testSet = new DataSet(4, 3);
+        testSet.addRow(new DataSetRow(sepalLen, sepalWid, petalLen, petalWid));
 
-    public double getPetalLen(){
-        return petalLen;
+
     }
-    public void setPetalLen(double petalLen){
-        this.petalLen = petalLen;
-    }
-    public double getPetalWid(){
-        return petalWid;
-    }
-    public void setPetalWid(double petalWid){
-        this.petalWid = petalWid;
+    public void testNeuralNetwork(NeuralNetwork nnet, DataSet test){
+        for(DataSetRow dataRow: test.getRows()) {
+            nnet.setInput(dataRow.getInput());
+            nnet.calculate();
+            double[] networkOutput = nnet.getOutput();
+            System.out.println(" Output: " + Arrays.toString(networkOutput) );
+        }
     }
 }
